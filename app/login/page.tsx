@@ -30,7 +30,9 @@ export default function LoginPage() {
           </CardContent>
         </Card>
       </div>
-      <div className="w-1/2"></div>
+      <div className="w-1/2">
+        <Image src="/bglogin.png" width={800} height={800} alt="Login Illustration" />
+      </div>
     </div>
   );
 }

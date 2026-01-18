@@ -1,7 +1,9 @@
 "use client";
 
+import CreateGroupDialog from "@/components/groups/create-group-dialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { PlusIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
 
 export default function Dashboard() {
@@ -88,13 +90,40 @@ export default function Dashboard() {
           assessment: 4.8,
         },
       ],
+    },
+    {
+      id: 4,
+      name: "Action Fans",
+      members: 15,
+      image: "https://files.tecnoblog.net/wp-content/uploads/2021/04/Qual-a-ordem-cronologica-dos-filmes-do-Batman-Deny-Freeman-Flickr.jpg",
+      ratingAverage: 4.6,
+      movies: [
+        {
+          id: 7,
+          title: "Mad Max: Fury Road",
+          description: "A high-octane action film.",
+          assessment: 4.7,
+        },
+        {
+          id: 8,
+          title: "John Wick",
+          description: "An action-packed revenge thriller.",
+          assessment: 4.6,
+        },
+        {
+          id: 9,
+          title: "The Dark Knight", 
+          description: "A gripping superhero action film.",
+          assessment: 4.8,
+        },
+      ],
     }
   ];
 
   return (
     <Card className="w-full flex bg-linear-to-br from-background to-muted p-4">
       <CardHeader>
-        <CardTitle className="text-2xl font-bold">Welcome back, {session?.user?.name}!</CardTitle>
+        <CardTitle className="text-2xl font-bold pt-6">Welcome back, {session?.user?.name}!</CardTitle>
       </CardHeader>
       <Card>
         <CardHeader className="text-lg font-medium">
@@ -115,31 +144,14 @@ export default function Dashboard() {
                   </CardContent>
                 </CardHeader>
                 <CardFooter className="flex gap-2">
-                  <Button>Edit Group</Button>
+                  <Button>View Group</Button>
                   <Button variant={"outline"}>Invite to Group</Button>
                 </CardFooter>
               </div>
             </Card>
           ))}
+          <CreateGroupDialog />
         </CardContent>
-      </Card>
-      <Card>
-        <CardHeader className="text-lg font-medium">
-          <CardTitle>Gêneros Favoritos</CardTitle>
-          <CardDescription>Descubra quais gêneros você mais assiste com base na sua atividade.</CardDescription>
-        </CardHeader>
-        <CardContent className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
-          <Card></Card>
-          <Card></Card>
-          <Card></Card>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader className="text-lg font-medium">
-          <CardTitle>Estatísticas Gerais</CardTitle>
-          <CardDescription>Um resumo da sua atividade: filmes assistidos, grupos ativos e tempo de uso.</CardDescription>
-        </CardHeader>
-        <CardContent className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4 w-full"></CardContent>
       </Card>
     </Card>
   );
