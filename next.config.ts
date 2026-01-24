@@ -7,6 +7,14 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "lh3.googleusercontent.com",
       },
+      {
+        protocol: "https",
+        hostname: "occ-0-8407-2218.1.nflxso.net"
+      },
+      {
+        protocol: "https",
+        hostname: "files.tecnoblog.net"
+      }
     ],
   },
 };
