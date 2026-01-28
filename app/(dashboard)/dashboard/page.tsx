@@ -1,25 +1,14 @@
-"use client";
-
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import CreateGroupDialog from "@/components/groups/create/create-group-dialog";
 import InviteGroupDialog from "@/components/groups/invite/invite-group-dialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Spinner } from "@/components/ui/spinner";
 import { groups } from "@/mock/groups";
-import { useSession } from "next-auth/react";
+import { getServerSession } from "next-auth";
 import Image from "next/image";
-import { redirect } from "next/navigation";
 
-export default function Dashboard() {
-  const { data: session, status } = useSession();
-
-  if (status === "loading") {
-    return <Spinner />;
-  }
-
-  if (status === "unauthenticated") {
-    redirect("/login");
-  }
+export default async function Dashboard() {
+    const session = await getServerSession(authOptions);
 
   return (
     <section className="w-full flex-col gap-6 flex bg-linear-to-br from-background to-muted">

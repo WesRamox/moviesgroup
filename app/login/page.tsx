@@ -2,11 +2,22 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
 import google from "../../public/google.svg";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
+  const { status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.replace("/dashboard");
+    }
+  }, [status, router]);
+  
   return (
     <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-background to-muted p-4">
       <div className="w-1/2 flex flex-col items-center gap-8">
@@ -22,7 +33,7 @@ export default function LoginPage() {
           </CardHeader>
 
           <CardContent className="space-y-4">
-            <Button className="w-full p-4 text-md" size="lg" onClick={() => signIn("google")}>
+            <Button className="w-full p-4 text-md" size="lg" onClick={() => signIn("google", { callbackUrl: "/dashboard" })}>
               <Image src={google} width={20} height={20} alt="Google" /> Join with Google
             </Button>
 
