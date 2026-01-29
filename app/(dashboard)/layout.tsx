@@ -15,10 +15,10 @@ export default async function DashboardLayout({ children }: { children: React.Re
   return (
     <SidebarProvider>
       <div className="flex h-screen w-full">
-        <DashboardSidebar />
+        <DashboardSidebar session={session} />
         <SidebarInset>
           <header className="bg-background sticky top-0 flex h-16 shrink-0 items-center gap-2 border-b px-4">
-            <SidebarTrigger className="-ml-1" />
+            <SidebarTrigger className="ml-1" />
             <DashboardBreadcrumb />
           </header>
           <main className="flex flex-1 gap-4 p-4">{children}</main>

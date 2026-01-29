@@ -4,7 +4,17 @@ import { Home, Users, User2Icon } from "lucide-react";
 
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import { NavUser } from "../nav-user/nav-user";
-import { useSession } from "next-auth/react";
+
+interface DashboardSidebarProps {
+  session: {
+    user: {
+      id: string;
+      name?: string | null;
+      email?: string | null;
+      image?: string | null;
+    };
+  } | null;
+}
 
 // Menu items.
 const items = [
@@ -25,8 +35,7 @@ const items = [
   }
 ];
 
-export function DashboardSidebar() {
-  const { data: session } = useSession(); 
+export function DashboardSidebar({ session }: DashboardSidebarProps) {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>

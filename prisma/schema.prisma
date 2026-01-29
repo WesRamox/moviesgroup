@@ -7,14 +7,16 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
+  id    String  @id @default(cuid())
+  name  String?
+  email String? @unique
+  image String?
 
   accounts Account[]
   sessions Session[]
+
+  groups      GroupMember[]
+  ownedGroups Group[]       @relation("OwnedGroups")
 }
 
 model Account {
@@ -51,4 +53,46 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+enum GroupType {
+  COUPLE
+  FRIENDS
+  FAMILY
+}
+
+model Group {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  type        GroupType
+  createdAt   DateTime @default(now())
+
+  ownerId String
+  owner   User   @relation("OwnedGroups", fields: [ownerId], references: [id])
+
+  members GroupMember[]
+  movies  Movie[]
+}
+
+model Movie {
+  id      String @id @default(cuid())
+  title   String
+  rating  Float?
+
+  groupId String
+  group   Group @relation(fields: [groupId], references: [id])
+}
+
+model GroupMember {
+  id String @id @default(cuid())
+
+  userId  String
+  groupId String
+  role    String @default("member") // owner | member
+
+  user  User  @relation(fields: [userId], references: [id])
+  group Group @relation(fields: [groupId], references: [id])
+
+  @@unique([userId, groupId])
 }
