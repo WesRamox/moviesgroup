@@ -81,8 +81,8 @@ prisma/
 
 - [x] `POST /api/groups` → Create group  
 - [x] `GET /api/groups` → List user groups  
-- [ ] `GET /api/groups/:id` → Group details  
-- [ ] `POST /api/groups/:id/members` → Add member  
+- [x] `GET /api/groups/:id` → Group details  
+- [x] `POST /api/groups/:id/invite` → Invite new member  
 - [ ] `DELETE /api/groups/:id/members/:userId` → Remove member  
 
 ---
