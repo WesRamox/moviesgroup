@@ -26,7 +26,7 @@ export default function LoginPage() {
             <CardTitle className="text-5xl text-start font-normal">
               <span className="text-zinc-800">Welcome to</span> <br />
               <span className="font-medium">
-                Movies<span className="text-blue-500">Group.</span>
+                Vault<span className="text-blue-500">Cine.</span>
               </span>
             </CardTitle>
             <CardDescription className="text-xl font-poppins">Try it for free by signing in with your Google account to start enjoying our platform.</CardDescription>

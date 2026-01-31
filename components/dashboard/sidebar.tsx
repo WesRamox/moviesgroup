@@ -79,10 +79,10 @@ export function DashboardSidebar({ session, pendingInvites }: DashboardSidebarPr
       <SidebarHeader>
         <div className="flex items-center gap-2 h-16">
           <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground font-bold">
-            M<span className="text-blue-500">G</span>
+            V<span className="text-blue-500">C</span>
           </div>
           <span className="font-semibold group-data-[collapsible=icon]:hidden">
-            Movies<span className="text-blue-500">Group</span>
+            Vault<span className="text-blue-500">Cine</span>
           </span>
         </div>
       </SidebarHeader>

@@ -1,4 +1,4 @@
-# 🎬 MoviesGroup
+# 🎬 VaultCine
 
 Web platform for creating **movie groups**, where authenticated users can create groups, invite members, and rate movies together.
 
@@ -109,7 +109,7 @@ prisma/
 
 ```bash
 git clone <repo-url>
-cd moviesgroup
+cd vaultcine
 ```
 
 ---

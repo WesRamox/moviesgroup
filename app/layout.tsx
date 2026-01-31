@@ -21,8 +21,8 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Movies Group",
-  description: "Movies Group is a platform that allows you to create movie watchlists with your friends and family.",
+  title: "Vault Cine",
+  description: "Vault Cine is a platform that allows you to create movie watchlists with your friends and family.",
 };
 
 export default function RootLayout({
