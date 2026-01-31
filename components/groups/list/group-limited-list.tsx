@@ -60,7 +60,7 @@ export default async function GroupLimitedList({ session }: GroupLimitedListProp
                   View Group
                 </Link>
               </Button>
-              <InviteGroupDialog groupId={group.id} />
+              {group.ownerId == session.user.id && <InviteGroupDialog groupId={group.id} />}
             </CardFooter>
           </div>
         </Card>

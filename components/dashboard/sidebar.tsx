@@ -1,9 +1,17 @@
 "use client";
 
-import { Home, Users, User2Icon, Popcorn } from "lucide-react";
+import { Home, Users, User2Icon, Popcorn, X, CheckIcon } from "lucide-react";
 
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import { NavUser } from "../nav-user/nav-user";
+import { Prisma } from "@prisma/client";
+import { Button } from "../ui/button";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+
+type PendingInvitesWithGroup = Prisma.InviteGetPayload<{
+  include: { group: true };
+}>;
 
 interface DashboardSidebarProps {
   session: {
@@ -14,9 +22,9 @@ interface DashboardSidebarProps {
       image?: string | null;
     };
   } | null;
+  pendingInvites: PendingInvitesWithGroup[];
 }
 
-// Menu items.
 const items = [
   {
     title: "Dashboard",
@@ -31,16 +39,34 @@ const items = [
   {
     title: "Movies",
     url: "/dashboard/movies",
-    icon: Popcorn
+    icon: Popcorn,
   },
   {
     title: "Profile",
     url: "/profile",
-    icon: User2Icon
-  }
+    icon: User2Icon,
+  },
 ];
 
-export function DashboardSidebar({ session }: DashboardSidebarProps) {
+export function DashboardSidebar({ session, pendingInvites }: DashboardSidebarProps) {
+  const router = useRouter();
+  const handleInviteAction = async (inviteId: string, action: "ACCEPT" | "DECLINE") => {
+    try {
+      const res = await fetch(`/api/invites/${inviteId}`, {
+        method: "PATCH",
+        body: JSON.stringify({ action }),
+      });
+
+      if (res.ok) {
+        toast.success(action === "ACCEPT" ? "Joined group!" : "Invite declined");
+        router.refresh();
+      } else {
+        toast.error("Something went wrong");
+      }
+    } catch (error) {
+      toast.error("Connection error: " + error);
+    }
+  };
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
@@ -66,6 +92,31 @@ export function DashboardSidebar({ session }: DashboardSidebarProps) {
                       <span>{item.title}</span>
                     </a>
                   </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+          <SidebarGroupLabel>Invites</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu className="ml-2">
+              {pendingInvites.length === 0 && (
+                <SidebarMenuItem>
+                  <span className="text-sm text-muted-foreground">No pending invites</span>
+                </SidebarMenuItem>
+              )}
+              {pendingInvites.map((invite) => (
+                <SidebarMenuItem key={invite.id} className="flex items-center justify-around gap-2">
+                  <span className="text-sm">
+                    Invite to <span className="font-medium">{invite.group.name}</span>
+                  </span>
+                  <div className="flex gap-2">
+                    <Button onClick={() => handleInviteAction(invite.id, "ACCEPT")}>
+                      <CheckIcon />
+                    </Button>
+                    <Button variant={"outline"} onClick={() => handleInviteAction(invite.id, "DECLINE")}>
+                      <X />
+                    </Button>
+                  </div>
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>

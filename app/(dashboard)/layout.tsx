@@ -5,18 +5,29 @@ import { authOptions } from "../api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { Toaster } from "@/components/ui/sonner";
+import { prisma } from "@/lib/prisma";
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const session = await getServerSession(authOptions);
 
-  if (!session) {
+  if (!session || !session?.user.email) {
     redirect("/login");
   }
+
+  const userEmail = session.user.email;
+
+  const pendingInvites = await prisma.invite.findMany({
+    where: {
+      email:  userEmail,
+      status: "PENDING",
+    },
+    include: { group: true },
+  });
 
   return (
     <SidebarProvider>
       <div className="flex h-screen w-full">
-        <DashboardSidebar session={session} />
+        <DashboardSidebar session={session} pendingInvites={pendingInvites} />
         <SidebarInset>
           <header className="bg-background sticky top-0 flex h-16 shrink-0 z-10 items-center gap-2 border-b px-4">
             <SidebarTrigger className="ml-1" />

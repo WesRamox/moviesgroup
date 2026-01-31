@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { Input } from "../../ui/input";
 import { Label } from "../../ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../ui/select";
@@ -28,7 +28,7 @@ export default function CreateGroupForm() {
     type: "COUPLE",
   });
 
-  const onSubmit = async (ev: React.FormEvent) => {
+  const onSubmit = async (ev: FormEvent) => {
     ev.preventDefault();
     const validation = CreateGroupFormSchema.safeParse(formData);
 

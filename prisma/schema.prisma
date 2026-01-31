@@ -12,8 +12,9 @@ model User {
   email String? @unique
   image String?
 
-  accounts Account[]
-  sessions Session[]
+  emailVerified DateTime?
+  accounts      Account[]
+  sessions      Session[]
 
   groups      GroupMember[]
   ownedGroups Group[]       @relation("OwnedGroups")
@@ -62,26 +63,27 @@ enum GroupType {
 }
 
 model Group {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   name        String
   description String?
   type        GroupType
-  createdAt   DateTime @default(now())
+  createdAt   DateTime  @default(now())
 
   ownerId String
   owner   User   @relation("OwnedGroups", fields: [ownerId], references: [id])
 
   members GroupMember[]
   movies  Movie[]
+  invites Invite[]
 }
 
 model Movie {
-  id      String @id @default(cuid())
-  title   String
-  rating  Float?
+  id     String @id @default(cuid())
+  title  String
+  rating Float?
 
   groupId String
-  group   Group @relation(fields: [groupId], references: [id])
+  group   Group  @relation(fields: [groupId], references: [id])
 }
 
 model GroupMember {
@@ -95,4 +97,22 @@ model GroupMember {
   group Group @relation(fields: [groupId], references: [id])
 
   @@unique([userId, groupId])
+}
+
+enum InviteStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+model Invite {
+  id        String       @id @default(cuid())
+  groupId   String
+  group     Group        @relation(fields: [groupId], references: [id])
+  email     String
+  senderId  String
+  status    InviteStatus
+  createdAt DateTime     @default(now())
+
+  @@unique([groupId, email])
 }

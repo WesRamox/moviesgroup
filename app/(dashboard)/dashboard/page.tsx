@@ -23,7 +23,7 @@ export default async function Dashboard() {
       </header>
       <Card>
         <CardHeader className="text-lg font-medium">
-          <CardTitle>My Groups</CardTitle>
+          <CardTitle>Last Groups</CardTitle>
           <CardDescription>Manage the groups you&apos;ve created or are part of to watch movies together.</CardDescription>
         </CardHeader>
         <Suspense fallback={<div className="flex items-center justify-center w-full">Loading...</div>}>
