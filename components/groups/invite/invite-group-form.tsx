@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { DialogClose, DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { toast } from "sonner";
 
 interface InviteGroupFormProps {
@@ -14,7 +14,8 @@ interface InviteGroupFormProps {
 export default function InviteGroupForm({ groupId }: InviteGroupFormProps) {
   const [email, setEmail] = useState<string>("");
 
-  const onSubmit = async () => {
+  const onSubmit = async (ev: FormEvent) => {
+    ev.preventDefault();
     try {
       const res = await fetch(`/api/groups/${groupId}/invite`, {
         method: "POST",
@@ -25,13 +26,22 @@ export default function InviteGroupForm({ groupId }: InviteGroupFormProps) {
       });
 
       if (res.ok) {
-        toast.success("Invite sent successfully!");
+        toast.success("User invited!", {
+          description: "Invite sent successfully!",
+          position: "top-center",
+        });
         document.getElementById("close-dialog")?.click();
       } else {
-        toast.error("Failed to send invite");
+        toast.error("Failed to send invite", {
+          description: "Please try again later.",
+          position: "top-center",
+        });
       }
     } catch (err) {
-      toast.error("Connection error: " + err);
+      toast.error("Connection error: " + err, {
+        description: "Please check your internet connection and try again.",
+        position: "top-center",
+      });
     }
   };
 

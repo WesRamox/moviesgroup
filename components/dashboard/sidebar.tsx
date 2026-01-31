@@ -79,7 +79,7 @@ export function DashboardSidebar({ session, pendingInvites }: DashboardSidebarPr
           </span>
         </div>
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className="mr-2">
         <SidebarGroup>
           <SidebarGroupLabel>Sections</SidebarGroupLabel>
           <SidebarGroupContent>

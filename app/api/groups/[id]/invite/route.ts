@@ -21,24 +21,35 @@ export async function POST(
       return NextResponse.json({ message: "Email is required" }, { status: 400 });
     }
 
+    const userToInvite = await prisma.user.findUnique({
+      where: { email }
+    });
+
+    if (!userToInvite) {
+      return NextResponse.json(
+        { message: "This user is not registered in the app yet." },
+        { status: 404 }
+      );
+    }
+
     const group = await prisma.group.findFirst({
       where: {
         id: groupId,
-        OR: [
-          { ownerId: session.user.id },
-          { members: { some: { id: session.user.id } } }
-        ]
+        ownerId: session.user.id
       }
     });
 
     if (!group) {
-      return NextResponse.json({ message: "Group not found or access denied" }, { status: 404 });
+      return NextResponse.json(
+        { message: "Only the group owner can send invites" },
+        { status: 403 }
+      );
     }
 
-    const alreadyMember = await prisma.user.findFirst({
+    const alreadyMember = await prisma.groupMember.findFirst({
       where: {
-        email,
-        groups: { some: { id: groupId } }
+        groupId,
+        user: { email }
       }
     });
 
