@@ -183,8 +183,8 @@ Access: `http://localhost:3000`
 
 ## 🚀 Next steps
 
-- [ ] Group details page
-- [ ] Invitation system
+- [x] Group details page
+- [x] Invitation system
 - [ ] Movie rating per group
 - [ ] Permissions (owner vs member)
 - [ ] Deploy (Railway / Vercel)
