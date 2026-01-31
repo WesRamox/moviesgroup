@@ -4,8 +4,7 @@ import GroupList from "@/components/groups/list/group-list";
 import { Suspense } from "react";
 import { GroupListSkeleton } from "@/components/groups/list/group-list-skeleton";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
-import Link from "next/link";
+import CreateGroupDialog from "@/components/groups/create/create-group-dialog";
 
 export default async function GroupsDashboard() {
   const session = await getServerSession(authOptions);
@@ -21,9 +20,7 @@ export default async function GroupsDashboard() {
         </div>
 
         <Button asChild className="font-bold shadow-sm">
-          <Link href="/dashboard/groups/create">
-            <Plus className="mr-2 h-4 w-4" /> Create New Group
-          </Link>
+            <CreateGroupDialog className="cursor-pointer font-medium" />
         </Button>
       </header>
 
